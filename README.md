@@ -1,5 +1,9 @@
 # youtube-dl
 
+## Web Server에서 CGI를 통해 서버 프로그램을 웹에서 실행 시킬수 있다
+## 이 샘플은 youtube-dl(youtube동영상 다운로드 할 수있는 프로그램)을 실행킬 수 있음
+
+
 ### 1. 준비물
   * apache2
   * python
