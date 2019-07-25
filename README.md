@@ -25,9 +25,8 @@ apt-get install -y apache2
 apt-get install -y vim
 apt-get install -y python
 
+#youtube-dl 다운로드 및 업데이트
 sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-sudo chmod a+rx /usr/local/bin/youtube-dl
-
 sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/local/bin/youtube-dl
 sudo chmod a+x /usr/local/bin/youtube-dl
 hash -r
@@ -35,11 +34,12 @@ hash -r
 
 cd /etc/apache2/mods-enabled
 
+#심볼링 링크 생성
 ln -s ../mods-available/cgi.load cgi.load
 ln -s ../mods-available/cgid.conf cgid.conf 
 ln -s ../mods-available/cgid.load cgid.load
-
 ln -s /usr/local/bin/youtube-dl /usr/lib/cgi-bin/
+
 
 cd /etc/apache2/conf-available/
 vim serve-cgi-bin.conf
@@ -59,6 +59,8 @@ vim serve-cgi-bin.conf
                 ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
                 <Directory "/usr/lib/cgi-bin">
                         AllowOverride None
+                        #cgi가 스크립트로 실행될수 있도록 cgi-script 추가
+                        #이게 없으면 shell script가 걍 쌩으로 보임
                         AddHandler cgi-script .sh
                         Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
                         Require all granted
@@ -82,6 +84,7 @@ echo "";
 echo "";
 echo "Hello World";
 #echo $1
+#저장할 경로 및 파일명 지정
 youtube-dl -o "/var/www/html/%(title)s.%(ext)s" https://www.youtube.com/?v=${1}
 ```
 
